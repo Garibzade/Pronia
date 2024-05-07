@@ -1,8 +1,10 @@
 ﻿
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Share/_Layout.cshtml";
+ 
 }
+
+@model List<GetCategoryVM>
 
 <!-- Begin Slider Area -->
 <div class="slider-area">
@@ -140,6 +142,16 @@
                 <ul class="nav product-tab-nav tab-style-1"
                     id="myTab"
                     role="tablist">
+                    @foreach(var item in Model)
+                    {
+                    <li class="nav-item" role="presentation">
+                        <a >
+                            @item.Name
+                        </a>
+                    </li>
+                        
+                    }
+@* 
                     <li class="nav-item" role="presentation">
                         <a class="active"
                            id="featured-tab"
@@ -170,7 +182,7 @@
                            aria-selected="false">
                             Latest
                         </a>
-                    </li>
+                    </li> *@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active"
