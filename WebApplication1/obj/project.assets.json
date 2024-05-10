@@ -7844,11 +7844,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Qarib\\Desktop\\pronia\\WebApplication1\\Pronia.csproj",
+      "projectUniqueName": "C:\\Users\\Qarib\\Desktop\\ProniaMain\\WebApplication1\\Pronia.csproj",
       "projectName": "Pronia",
-      "projectPath": "C:\\Users\\Qarib\\Desktop\\pronia\\WebApplication1\\Pronia.csproj",
+      "projectPath": "C:\\Users\\Qarib\\Desktop\\ProniaMain\\WebApplication1\\Pronia.csproj",
       "packagesPath": "C:\\Users\\Qarib\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Qarib\\Desktop\\pronia\\WebApplication1\\obj\\",
+      "outputPath": "C:\\Users\\Qarib\\Desktop\\ProniaMain\\WebApplication1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Qarib\\AppData\\Roaming\\NuGet\\NuGet.Config",

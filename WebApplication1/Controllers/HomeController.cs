@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 
 using Pronia.DataAccesLayer;
-using Pronia.Views.Categories;
+using Pronia.Models;
+using Pronia.ViewModels.Categories;
+using Pronia.ViewModels.Sliders;
 
 namespace WebApplication1.Controllers
 {
@@ -17,26 +19,17 @@ namespace WebApplication1.Controllers
         
         public async Task<IActionResult> Index()
         {
-            var data = await _context.Categories
-            .Where(x => x.IsDeleted == false)
-                .Select(x => new GetCategoryVM
-                 {
-                     Id = x.Id,
-                     Name = x.Name
-                 }).OrderByDescending(x=>x.Name)
-                .TakeLast(4)
-                .ToListAsync();
-
+            var data = await _context.Sliders.Select(s => new GetSliderVM
+            {
+                Discount = s.Discount,
+                Id = s.Id,
+                ImageUrl = s.ImageUrl,
+                Subtitle = s.Subtitle,
+                Title = s.Title
+            }).ToListAsync();
             return View(data);
         }
-        public async Task<IActionResult> Test(int? id)
-        {
-            if (id == null || id < 1) return BadRequest();
-            var cat = await _context.Categories.FindAsync(id);
-            if (cat == null) return NotFound();
-            _context.Remove(cat);
-            return Content(cat.Name);
-        }
+
         public async Task<IActionResult> Contact() 
         {
             return View();
@@ -47,5 +40,26 @@ namespace WebApplication1.Controllers
             return View();
 
         }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || id < 1) return BadRequest();
+
+            var cat = await _context.Categories.FindAsync(id);
+
+            if (cat == null) return NotFound();
+
+            _context.Categories.Remove(cat);
+
+            await _context.SaveChangesAsync();
+
+            return Content(cat.Name);
+        }
+
+           
+        
+
+        
+
+       
     }
 }
