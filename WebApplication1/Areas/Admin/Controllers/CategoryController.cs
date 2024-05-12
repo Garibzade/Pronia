@@ -14,11 +14,11 @@ namespace Pronia.Areas.Admin.Controllers
         {
             var data = await _context.Categories.Select(c => new GetCategoryVM
             {
-                Name=c.Name,
+                Name = c.Name,
             }).
             ToListAsync();
             return View(data ?? new List<GetCategoryVM>());
-           }
+        }
         public IActionResult Create()
         {
             return View();
