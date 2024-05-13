@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3autGSlY7q6FsL+4bp6gkEws0BK/m/DBK4mZRpPx4uQ=",
+  "Hash": "xxlwQgsZIJ2JMoAHBE5g3RB4HdS/YnAwjL7Y+tqSkt0=",
   "Source": "Pronia",
   "BasePath": "_content/Pronia",
   "Mode": "Default",
@@ -15329,6 +15329,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\js\\vendor\\modernizr-3.11.2.min.js"
+    },
+    {
+      "Identity": "C:\\Users\\Qarib\\Desktop\\ProniaMain\\WebApplication1\\wwwroot\\imgs\\products\\kd15ruba.gk4.png",
+      "SourceId": "Pronia",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Qarib\\Desktop\\ProniaMain\\WebApplication1\\wwwroot\\",
+      "BasePath": "_content/Pronia",
+      "RelativePath": "imgs/products/kd15ruba.gk4.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imgs\\products\\kd15ruba.gk4.png"
     }
   ]
 }

@@ -15,35 +15,41 @@ namespace Pronia.Areas.Admin.Controllers
             var data = await _context.Categories.Select(c => new GetCategoryVM
             {
                 Name = c.Name,
+                Id = c.Id,
+               
+
             }).
             ToListAsync();
             return View(data ?? new List<GetCategoryVM>());
         }
-        public IActionResult Create()
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
+           
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateCategoryVM Createvm)
         {
+            if (Createvm.Name is null && await _context.Categories.AnyAsync(c=>c.Name== Createvm.Name))
+            {
+                ModelState.AddModelError("Name","Ad Movudur");
+            }
             if (!ModelState.IsValid)
             {
                 return View(Createvm);
             }
             Category category = new Category
             {
+                Name = Createvm.Name,
+                
+               
 
-                CreatedTime = DateTime.Now,
-                IsDeleted = false,
-                Id = Createvm.Id,
-                Name = Createvm.Name
             };
-            await _context.Categories.AddAsync(category);
-
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
+             await _context.Categories.AddAsync(category);
+             await _context.SaveChangesAsync();
+             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Delete(int? id)
         {
@@ -56,8 +62,7 @@ namespace Pronia.Areas.Admin.Controllers
             _context.Categories.Remove(cat);
 
             await _context.SaveChangesAsync();
-
-            return Content(cat.Name);
+            return RedirectToAction(nameof(Index));
         }
         [HttpGet]
         public async Task<IActionResult> Update(int? id)

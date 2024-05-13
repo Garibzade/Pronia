@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Server;
 using Pronia.DataAccesLayer;
 using Pronia.Extensions;
+using Pronia.Models;
 using Pronia.ViewModels.Products;
+using System.Text;
 
 namespace Pronia.Areas.Admin.Controllers;
 
@@ -28,25 +31,60 @@ namespace Pronia.Areas.Admin.Controllers;
 
            public async Task<IActionResult> Create()
            {
-             return View();
+                ViewBag.Categories = await _context.Categories
+                .Where(s => !s.IsDeleted)
+                .ToListAsync();
+        return View();
            }
     [HttpPost]
-    public async Task<IActionResult> Get(CreateProductVM data)
+    public async Task<IActionResult> Create(CreateProductVM data)
     {
-        if (!data.ImageFile.IsValidType("image")) 
+        if (data.ImageFile!=null)
         {
+
+        
+            if (!data.ImageFile.IsValidType("image"))
+            { 
             ModelState.AddModelError("ImageFile", "sekil formati yanlisdir!");
-        }
-        if(data.ImageFile.IsValidLength(20))
-        {
+            }
+            if(data.ImageFile.IsValidLength(20))
+            {
             ModelState.AddModelError("ImageFile", "sekilin olcusu cox boyukdur");
+            }
         }
+        byte count = 0;
+        bool isImageValid = true;
+        StringBuilder sb=new StringBuilder();
+        foreach (var img in data.ImageFiles)
+        {
+            if (!img.IsValidType("Image"))
+            {
+                sb.Append((count++) + img.FileName + "faylin formati duzgun deyil");
+                //ModelState.AddModelError("ImageFiles",img.FileName+"faylin formati duzgun deyil");
+                isImageValid = false;
+            }
+            if (img.IsValidLength(200)) 
+            {
+                sb.Append((count++) + img.FileName + "faylin olcusu 20kb-dan coxdur");
+                //ModelState.AddModelError("ImageFiles",img.FileName+"faylin olcusu 20kb-dan coxdur")
+                isImageValid = false;
+            }
+
+        }
+        if (isImageValid)
+        {
+           
+            ModelState.AddModelError("ImageFiles", sb.ToString());
+        }
+
+
+
         if (!ModelState.IsValid)
         {
             return View();
         }
         string fileName = await data.ImageFile.SaveFileAsync(Path.Combine(_env.WebRootPath, "imgs", "products"));
-        await _context.Products.AddAsync(new Models.Product
+        Product product = new Product
         {
             CostPrice = data.CostPrice,
             CreatedTime = DateTime.Now,
@@ -57,7 +95,21 @@ namespace Pronia.Areas.Admin.Controllers;
             Raiting = data.Raiting,
             SellPrice = data.SellPrice,
             StockCount = data.StockCount,
-        });
+            Images=new List<ProductImage>()
+        };
+        
+        foreach (var img in data.ImageFiles)
+        {
+            string imgName = await img.SaveFileAsync(Path.Combine(_env.WebRootPath, "imgs", "products"));
+            product.Images.Add(new ProductImage
+            {
+                ImageUrl=Path.Combine("imgs","products",imgName),
+                CreatedTime=DateTime.Now,
+                IsDeleted = false,
+            });
+        }
+
+        await _context.Products.AddAsync(product);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }

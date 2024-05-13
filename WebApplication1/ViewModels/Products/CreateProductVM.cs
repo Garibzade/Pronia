@@ -8,8 +8,9 @@
         public decimal SellPrice { get; set; }
         public int Discount { get; set; }
         public int StockCount { get; set; }
-        public IFormFile ImageFile { get; set; }
         public float Raiting { get; set; }
+        public int[] CategoryIds { get; set; }
+        public IFormFile ImageFile { get; set; }
         public IEnumerable<IFormFile> ImageFiles { get; set; }
     }
 }
