@@ -55,7 +55,7 @@ namespace Pronia.Areas.Admin.Controllers;
         byte count = 0;
         bool isImageValid = true;
         StringBuilder sb=new StringBuilder();
-        foreach (var img in data.ImageFiles)
+        foreach (var img in data.ImageFiles  ?? new List<IFormFile>())
         {
             if (!img.IsValidType("Image"))
             {
@@ -71,18 +71,28 @@ namespace Pronia.Areas.Admin.Controllers;
             }
 
         }
-        if (isImageValid)
+        if (!isImageValid)
         {
            
             ModelState.AddModelError("ImageFiles", sb.ToString());
+        }
+
+        if (await _context.Categories.CountAsync(c=>data.CategoryIds.Contains(c.Id))!=data.CategoryIds.Length)
+        {
+            ModelState.AddModelError("CategoryIds", "Kateqoriya tapilmadi");
+
         }
 
 
 
         if (!ModelState.IsValid)
         {
+            ViewBag.Categories = await _context.Categories
+                .Where(s => !s.IsDeleted)
+                .ToListAsync();
             return View();
         }
+       
         string fileName = await data.ImageFile.SaveFileAsync(Path.Combine(_env.WebRootPath, "imgs", "products"));
         Product product = new Product
         {

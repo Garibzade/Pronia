@@ -46,7 +46,13 @@
     
     </select> *@
 
+    <div class="mb-3">
+        
     <select asp-for="CategoryIds" class="form-control" asp-items="new SelectList(ViewBag.Categories,nameof(GetCategoryVM.Id),nameof(GetCategoryVM.Name))"></select>
+        
+        <span asp-validation-for="CategoryIds" class="text-danger"> </span>
+    </div>
+
     <div class="mb-3">
         <label asp-for="ImageFile">Image File</label>
         <input asp-for="ImageFile" class="form-control">
