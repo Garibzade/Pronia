@@ -14,7 +14,9 @@ namespace Pronia.DataAccesLayer
         public DbSet<ProductImage> ProductImages { get; set; }
 
 
+
         public DbSet<Product> Products { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

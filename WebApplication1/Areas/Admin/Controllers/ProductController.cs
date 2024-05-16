@@ -24,7 +24,7 @@ namespace Pronia.Areas.Admin.Controllers;
                 Raiting = p.Raiting,
                 SellPrice = p.SellPrice,
                 StockCount = p.StockCount,
-                ImageUrl=p.IamgeUrl
+                ImageUrl=p.IamgeUrl,
 
             }).ToListAsync());
         }
@@ -55,26 +55,26 @@ namespace Pronia.Areas.Admin.Controllers;
         byte count = 0;
         bool isImageValid = true;
         StringBuilder sb=new StringBuilder();
-        foreach (var img in data.ImageFiles  ?? new List<IFormFile>())
-        {
-            if (!img.IsValidType("Image"))
-            {
-                sb.Append((count++) + img.FileName + "faylin formati duzgun deyil");
-                //ModelState.AddModelError("ImageFiles",img.FileName+"faylin formati duzgun deyil");
-                isImageValid = false;
-            }
-            if (img.IsValidLength(200)) 
-            {
-                sb.Append((count++) + img.FileName + "faylin olcusu 20kb-dan coxdur");
-                //ModelState.AddModelError("ImageFiles",img.FileName+"faylin olcusu 20kb-dan coxdur")
-                isImageValid = false;
-            }
+        //foreach (var img in data.ImageFiles  ?? new List<IFormFile>())
+        //{
+        //    if (!img.IsValidType("Image"))
+        //    {
+        //        //sb.Append((count++) + img.FileName + "faylin formati duzgun deyil");
+        //        ModelState.AddModelError("ImageFiles", img.FileName + "faylin formati duzgun deyil");
+        //        isImageValid = false;
+        //    }
+        //    if (!img.IsValidLength(200)) 
+        //    {
+        //        sb.Append((count++) + img.FileName + "faylin olcusu 20kb-dan coxdur");
+        //        //ModelState.AddModelError("ImageFiles",img.FileName+"faylin olcusu 20kb-dan coxdur")
+        //        isImageValid = false;
+        //    }
 
-        }
+        //}
         if (!isImageValid)
         {
            
-            ModelState.AddModelError("ImageFiles", sb.ToString());
+            //ModelState.AddModelError("ImageFiles", sb.ToString());
         }
 
         if (await _context.Categories.CountAsync(c=>data.CategoryIds.Contains(c.Id))!=data.CategoryIds.Length)
